@@ -12,7 +12,7 @@ pub fn keyword_test() {
     token.False,
     token.Function,
     token.Let,
-    token.Ident("five"),
+    token.Ident(<<"five":utf8>>),
   ]
 
   ["if", "else", "true", "false", "fn", "let", "five"]

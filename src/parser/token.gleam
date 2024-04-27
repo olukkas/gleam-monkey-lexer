@@ -1,5 +1,3 @@
-import gleam/bit_array
-
 pub type Token {
   Plus
   Minus
@@ -24,10 +22,10 @@ pub type Token {
   If
   Else
   Let
-  Int(String)
-  Ident(String)
+  Int(BitArray)
+  Ident(BitArray)
   EOF
-  Illegal
+  Illegal(BitArray)
 }
 
 pub fn keyword(from str: BitArray) -> Token {
@@ -39,9 +37,6 @@ pub fn keyword(from str: BitArray) -> Token {
     <<"true":utf8>> -> True
     <<"false":utf8>> -> False
     <<"let":utf8>> -> Let
-    _ -> {
-      let assert Ok(str) = bit_array.to_string(str)
-      Ident(str)
-    }
+    _ -> Ident(str)
   }
 }
