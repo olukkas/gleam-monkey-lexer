@@ -16,7 +16,11 @@ pub type Token {
   Return
   Function
   Comma
-  SemiColon
+  Semicolon
+  LParen
+  RParen
+  LBrace
+  RBrace
   If
   Else
   Let
