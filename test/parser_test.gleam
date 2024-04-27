@@ -23,7 +23,7 @@ pub fn lex_symbols_test() {
     token.Bang,
     token.Semicolon,
     token.Comma,
-    token.EOF
+    token.EOF,
   ]
 
   "= ! () {} /*==+ -!;,"
