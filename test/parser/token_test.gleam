@@ -3,7 +3,6 @@ import gleam/bit_array
 import gleeunit/should
 import parser/token
 
-// gleeunit test functions end in `_test`
 pub fn keyword_test() {
   let expected = [
     token.If,

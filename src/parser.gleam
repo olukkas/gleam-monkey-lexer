@@ -4,7 +4,7 @@ import gleam/bit_array
 import parser/token
 
 pub fn main() {
-  let result = lex("let five = 5; (){}; $ %,<>=+-*/")
+  let result = lex("let five = 5;")
   io.debug(result)
 }
 
@@ -17,16 +17,15 @@ pub fn lex(input: String) -> List(token.Token) {
 fn do_lex(input, tokens) {
   case input {
     <<>> -> list.reverse([token.EOF, ..tokens])
-
-    // scape white_spaces characters
-    <<" ":utf8, rest:bits>> -> do_lex(rest, tokens)
-    <<"\n":utf8, rest:bits>> -> do_lex(rest, tokens)
-    <<"\r":utf8, rest:bits>> -> do_lex(rest, tokens)
-    <<"\t":utf8, rest:bits>> -> do_lex(rest, tokens)
     _ -> {
-      let assert #(tok, rest) = tokenize(input)
-      io.debug(#(tok, rest))
-      do_lex(rest, [tok, ..tokens])
+      let assert <<c:8, rest:bits>> = input
+      case is_whitespace(c) {
+        True -> do_lex(rest, tokens)
+        _ -> {
+          let assert #(tok, rest) = tokenize(input)
+          do_lex(rest, [tok, ..tokens])
+        }
+      }
     }
   }
 }
@@ -96,4 +95,9 @@ fn is_letter(input: Int) -> Bool {
 fn is_number(input: Int) -> Bool {
   let assert <<zero, nine>> = <<"09":utf8>>
   zero <= input && input <= nine
+}
+
+fn is_whitespace(input) {
+  let assert <<sp, nl, st, sr>> = <<" \n\t\r":utf8>>
+  list.contains([sp, nl, st, sr], input)
 }
